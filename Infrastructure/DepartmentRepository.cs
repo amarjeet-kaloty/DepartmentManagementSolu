@@ -1,5 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Infrastructure
 {
@@ -22,9 +24,21 @@ namespace Infrastructure
             _dbContext.Departments.Update(department);
         }
 
+        public async Task<int> DeleteDepartmentAsync(Guid id)
+        {
+            _dbContext.Departments.Remove(await _dbContext.Departments.FindAsync(id));
+            return 1;
+        }
+
+
         public async Task<Department> GetDepartmentByIdAsync(Guid id)
         {
             return await _dbContext.Departments.FindAsync(id);
+        }
+
+        public async Task<List<Department>> GetDepartmentListAsync()
+        {
+            return await _dbContext.Departments.ToListAsync();
         }
     }
 }

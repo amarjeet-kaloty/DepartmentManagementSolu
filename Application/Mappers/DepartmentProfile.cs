@@ -11,6 +11,8 @@ namespace Application.Mappers
             CreateMap<Department, ReadDepartmentDTO>().ReverseMap();
 
             CreateMap<CreateDepartmentDTO, Department>().ReverseMap();
+
+            CreateMap<UpdateDepartmentDTO, Department>().ReverseMap();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Infrastructure
             _dbContext = dbContext;
         }
 
-        public IDepartmentRepository EmployeeRepository => new DepartmentRepository(_dbContext);
+        public IDepartmentRepository DepartmentRepository => new DepartmentRepository(_dbContext);
 
         public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {

@@ -1,6 +1,8 @@
-﻿namespace Application.DTOs
+﻿using MediatR;
+
+namespace Application.DTOs.DepartmentDTOs
 {
-    public class ReadDepartmentDTO
+    public class UpdateDepartmentDTO : IRequest<ReadDepartmentDTO>
     {
         public required Guid Id { get; set; }
         public required string Name { get; set; }

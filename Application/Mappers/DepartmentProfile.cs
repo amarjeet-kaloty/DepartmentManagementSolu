@@ -1,6 +1,8 @@
-﻿using Application.DTOs;
+﻿using Application.DTOs.DepartmentDTOs;
+using Application.DTOs.ExternalEmployeeDTOs;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Models;
 
 namespace Application.Mappers
 {
@@ -13,6 +15,8 @@ namespace Application.Mappers
             CreateMap<CreateDepartmentDTO, Department>().ReverseMap();
 
             CreateMap<UpdateDepartmentDTO, Department>().ReverseMap();
+
+            CreateMap<EmployeeExternalData, EmployeeReadDTO>().ReverseMap();
         }
     }
 }

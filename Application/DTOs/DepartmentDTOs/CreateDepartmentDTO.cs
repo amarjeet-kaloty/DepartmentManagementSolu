@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Application.DTOs
+namespace Application.DTOs.DepartmentDTOs
 {
     public class CreateDepartmentDTO : IRequest<ReadDepartmentDTO>
     {

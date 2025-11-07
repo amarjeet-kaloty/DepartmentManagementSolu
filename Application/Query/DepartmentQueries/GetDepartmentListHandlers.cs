@@ -1,4 +1,4 @@
-﻿using Application.DTOs;
+﻿using Application.DTOs.DepartmentDTOs;
 using AutoMapper;
 using Domain.Interfaces;
 using MediatR;

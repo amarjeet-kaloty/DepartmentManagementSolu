@@ -1,5 +1,5 @@
 ﻿using Application.Command.DepartmentCommands;
-using Application.DTOs;
+using Application.DTOs.DepartmentDTOs;
 using Application.Query.DepartmentQueries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -91,6 +91,13 @@ namespace Presentation.Controllers
         {
             ReadDepartmentDTO department = await _mediator.Send(new GetDepartmentByIdQuery() { Id = id });
             return Ok(department);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetDepartmentDetails(Guid id)
+        {
+            var result = await _mediator.Send(new GetDepartmentDetailQuery() { Id = id });
+            return Ok(result);
         }
     }
 }

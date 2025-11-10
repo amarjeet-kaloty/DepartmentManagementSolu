@@ -12,8 +12,6 @@ namespace Application.DTOs.DepartmentDTOs
 
         public IEnumerable<EmployeeReadDTO> Employees { get; set; } = new List<EmployeeReadDTO>();
 
-        public DepartmentDetailDTO() { }
-
         [SetsRequiredMembers]
         public DepartmentDetailDTO(Department department, IEnumerable<EmployeeReadDTO> employees)
         {

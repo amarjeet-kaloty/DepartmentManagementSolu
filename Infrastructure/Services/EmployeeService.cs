@@ -25,9 +25,9 @@ namespace Infrastructure.Services
         public async Task<IEnumerable<EmployeeExternalData>> GetEmployeesByDepartmentIdAsync(Guid departmentId, string? userToken)
         {
             var methodPath = $"api/Employee/ByDepartment?departmentId={departmentId}";
-            _logger.LogInformation($"Delegating employee detail query to App ID '{MANAGEMENT_APP_ID}' at path '{methodPath}' for ID: {departmentId}");
             var invokableClient = _daprClient.CreateInvokableHttpClient(MANAGEMENT_APP_ID);
             var request = new HttpRequestMessage(HttpMethod.Get, methodPath);
+            _logger.LogInformation($"Delegating employee detail query to App ID '{MANAGEMENT_APP_ID}' at path '{methodPath}' for ID: {departmentId}");
 
             if (!string.IsNullOrEmpty(userToken))
             {
@@ -39,14 +39,14 @@ namespace Infrastructure.Services
             if (response.IsSuccessStatusCode)
             {
                 var employeeRecords = await response.Content.ReadFromJsonAsync<IEnumerable<EmployeeExternalData>>();
-                return _mapper.Map<IEnumerable<EmployeeExternalData>>(employeeRecords);
+                return employeeRecords!;
             }
             else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized ||
                  response.StatusCode == System.Net.HttpStatusCode.Forbidden)
             {
                 string statusCode = response.StatusCode.ToString();
                 _logger.LogWarning(
-                "Service call to {AppId} for Department {DepartmentId} failed due to security: {StatusCode}. Token provided: {HasToken}",
+                "Service call to {AppId} for Department {DepartmentId} failed due to security: StatusCode: {StatusCode}. Token provided: {HasToken}",
                     MANAGEMENT_APP_ID,
                     departmentId,
                     statusCode,

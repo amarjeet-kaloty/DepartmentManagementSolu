@@ -4,6 +4,6 @@ namespace Domain.Service
 {
     public interface IEmployeeService
     {
-        Task<IEnumerable<EmployeeExternalData>> GetEmployeesByDepartmentIdAsync(Guid departmentId);
+        Task<IEnumerable<EmployeeExternalData>> GetEmployeesByDepartmentIdAsync(Guid departmentId, string? userToken);
     }
 }

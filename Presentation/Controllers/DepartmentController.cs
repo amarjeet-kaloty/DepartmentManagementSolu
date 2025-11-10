@@ -11,10 +11,12 @@ namespace Presentation.Controllers
     public class DepartmentController : Controller
     {
         private readonly IMediator _mediator;
-       
-        public DepartmentController(IMediator mediator)
+        private readonly ILogger<DepartmentController> _logger;
+
+        public DepartmentController(IMediator mediator, ILogger<DepartmentController> logger)
         {
             _mediator = mediator;
+            _logger = logger;
         }
 
         /// <summary>
@@ -93,10 +95,16 @@ namespace Presentation.Controllers
             return Ok(department);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("DepartmentDetails/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetDepartmentDetails(Guid id)
         {
-            var result = await _mediator.Send(new GetDepartmentDetailQuery() { Id = id });
+            _logger.LogInformation("Department received the request to get all the employees by department ID: {id}.", id);
+            string authorizationToken = Request.Headers.Authorization.FirstOrDefault()!;
+            _logger.LogInformation($"Authorization token: {authorizationToken}");
+
+            var result = await _mediator.Send(new GetDepartmentDetailQuery() { Id = id, UserToken = authorizationToken! });
             return Ok(result);
         }
     }

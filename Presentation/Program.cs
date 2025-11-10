@@ -27,10 +27,7 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseMongoDB(database.Client, database.DatabaseNamespace.DatabaseName);
 });
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddHttpClient<IEmployeeService, EmployeeService>(client =>
-{
-    client.BaseAddress = new Uri("http://localhost:5000/");
-});
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -68,6 +65,8 @@ builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile(new DepartmentProfile());
 });
+builder.Services.AddDaprClient();
+builder.Services.AddControllers().AddDapr();
 
 var app = builder.Build();
 

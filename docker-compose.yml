@@ -1,0 +1,46 @@
+# -----------------------------------------------------------------
+#  NEW DEPARTMENT PUBLISHER SERVICE (DepartmentSolu)
+# -----------------------------------------------------------------
+services:
+  presentation:
+    image: ${DOCKER_REGISTRY-}presentation
+    container_name: department-api-container
+    build:
+      context: .
+      dockerfile: Presentation/Dockerfile 
+    networks:
+      - dapr-network
+
+  department-dapr:
+    image: "daprio/dapr:1.16.0"
+    container_name: department_dapr_container
+    network_mode: service:presentation
+    command: [
+      "/daprd",
+      "-app-id", "departmentservice", 
+      "-app-port", "8080",
+      "-resources-path", "/app"
+    ]
+    volumes:
+      - ./rabbitmq-pubsub.yaml:/app/rabbitmq-pubsub.yaml 
+
+# -----------------------------------------------------------------
+#  INFRASTRUCTURE SERVICES
+# -----------------------------------------------------------------
+  mongodb-service:
+    image: mongo:latest
+    container_name: department_mgmt_mongodb
+    ports:
+      - "3001:27017"
+    volumes:
+      - department_mongo_data:/data/db
+    networks:
+      - dapr-network
+
+volumes:
+  department_mongo_data:
+
+networks:
+  dapr-network:
+    external: true
+    name: dapr-pubsub-network

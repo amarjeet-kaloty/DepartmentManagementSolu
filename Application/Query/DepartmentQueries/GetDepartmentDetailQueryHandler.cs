@@ -28,11 +28,10 @@ namespace Application.Query.DepartmentQueries
             var department = await _unitOfWork.DepartmentRepository.GetDepartmentByIdAsync(request.Id);
             if (department == null) return null!;
 
-            // Service Invocation
-            var employees = await _employeeService.GetEmployeesByDepartmentIdAsync(request.Id);
+            // Service Invocation call
+            var employees = await _employeeService.GetEmployeesByDepartmentIdAsync(request.Id, request.UserToken);
 
             var employeesForResponse = _mapper.Map<IEnumerable<EmployeeReadDTO>>(employees);
-
             return new DepartmentDetailDTO(department, employeesForResponse);
         }
     }

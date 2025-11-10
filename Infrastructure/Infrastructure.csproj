@@ -8,7 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="MongoDB.EntityFrameworkCore" Version="9.0.0" />
-	  <PackageReference Include="AutoMapper" Version="15.0.1" />
+	<PackageReference Include="AutoMapper" Version="15.0.1" />
+	<PackageReference Include="Dapr.AspNetCore" Version="1.16.0" />
   </ItemGroup>	
 
   <ItemGroup>

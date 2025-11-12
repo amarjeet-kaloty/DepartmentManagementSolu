@@ -3,7 +3,6 @@ using Dapr.Client;
 using Domain.Models;
 using Domain.Service;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Net.Http.Json;
 
 namespace Infrastructure.Services
@@ -35,14 +34,12 @@ namespace Infrastructure.Services
             }
 
             var response = await invokableClient.SendAsync(request, CancellationToken.None);
-
             if (response.IsSuccessStatusCode)
             {
                 var employeeRecords = await response.Content.ReadFromJsonAsync<IEnumerable<EmployeeExternalData>>();
                 return employeeRecords!;
             }
-            else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized ||
-                 response.StatusCode == System.Net.HttpStatusCode.Forbidden)
+            else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
                 string statusCode = response.StatusCode.ToString();
                 _logger.LogWarning(
@@ -52,11 +49,11 @@ namespace Infrastructure.Services
                     statusCode,
                     !string.IsNullOrEmpty(userToken)
                 );
-                return Enumerable.Empty<EmployeeExternalData>();
+                throw new UnauthorizedAccessException($"Unauthorized access when fetching employees.");
             }
             else 
             {
-                return Enumerable.Empty<EmployeeExternalData>();
+                throw new HttpRequestException($"Failed to fetch employees. Status code: {response.StatusCode}");
             }
         }
     }

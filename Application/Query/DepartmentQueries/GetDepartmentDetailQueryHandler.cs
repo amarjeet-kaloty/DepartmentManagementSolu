@@ -28,7 +28,7 @@ namespace Application.Query.DepartmentQueries
             var department = await _unitOfWork.DepartmentRepository.GetDepartmentByIdAsync(request.Id);
             if (department == null) return null!;
 
-            // Service Invocation call
+            // Service Invocation Request
             var employees = await _employeeService.GetEmployeesByDepartmentIdAsync(request.Id, request.UserToken);
 
             var employeesForResponse = _mapper.Map<IEnumerable<EmployeeReadDTO>>(employees);

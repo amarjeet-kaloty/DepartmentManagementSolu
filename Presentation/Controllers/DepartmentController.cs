@@ -3,11 +3,13 @@ using Application.DTOs.DepartmentDTOs;
 using Application.Query.DepartmentQueries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.Filters;
 
 namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ServiceFilter(typeof(CustomExceptionFilterAttribute))]
     public class DepartmentController : Controller
     {
         private readonly IMediator _mediator;

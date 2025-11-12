@@ -6,13 +6,12 @@ namespace Application.DTOs.DepartmentDTOs
 {
     public class DepartmentDetailDTO
     {
-        public required Guid Id { get; set; }
-        public required string Name { get; set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
         public string? Description { get; set; }
 
         public IEnumerable<EmployeeReadDTO> Employees { get; set; } = new List<EmployeeReadDTO>();
 
-        [SetsRequiredMembers]
         public DepartmentDetailDTO(Department department, IEnumerable<EmployeeReadDTO> employees)
         {
             Id = department.Id;

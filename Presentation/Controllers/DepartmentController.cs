@@ -97,16 +97,20 @@ namespace Presentation.Controllers
             return Ok(department);
         }
 
+        /// <summary>
+        /// Retrieves a list of employees belonging to a specific department.
+        /// </summary>
+        /// <param name="id">The unique GUID of the department whose employees are to be retrieved.</param>
+        /// <returns>
+        /// Department consisting details of the all the employees or else an empty list.
+        /// </returns>
         [HttpGet("DepartmentDetails/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetDepartmentDetails(Guid id)
+        public async Task<ActionResult<DepartmentDetailDTO>> GetDepartmentDetails(Guid id)
         {
             _logger.LogInformation("Department received the request to get all the employees by department ID: {id}.", id);
-            string authorizationToken = Request.Headers.Authorization.FirstOrDefault()!;
-            _logger.LogInformation($"Authorization token: {authorizationToken}");
-
-            var result = await _mediator.Send(new GetDepartmentDetailQuery() { Id = id, UserToken = authorizationToken! });
+            var result = await _mediator.Send(new GetDepartmentDetailQuery() { Id = id, UserToken = Request.Headers.Authorization.FirstOrDefault()! });
             return Ok(result);
         }
     }

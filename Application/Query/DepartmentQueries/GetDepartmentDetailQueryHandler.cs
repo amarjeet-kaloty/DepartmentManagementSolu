@@ -1,5 +1,6 @@
 ﻿using Application.DTOs.DepartmentDTOs;
 using Application.DTOs.ExternalEmployeeDTOs;
+using Application.Exceptions;
 using AutoMapper;
 using Domain.Interfaces;
 using Domain.Service;
@@ -26,7 +27,10 @@ namespace Application.Query.DepartmentQueries
         public async Task<DepartmentDetailDTO> Handle(GetDepartmentDetailQuery request, CancellationToken cancellationToken)
         {
             var department = await _unitOfWork.DepartmentRepository.GetDepartmentByIdAsync(request.Id);
-            if (department == null) return null!;
+            if (department == null)
+            {
+                throw new NotFoundException($"Department with ID {request.Id} not found.");
+            }
 
             // Service Invocation Request
             var employees = await _employeeService.GetEmployeesByDepartmentIdAsync(request.Id, request.UserToken);

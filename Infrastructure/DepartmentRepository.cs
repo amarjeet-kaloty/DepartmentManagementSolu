@@ -30,6 +30,10 @@ namespace Infrastructure
             return 1;
         }
 
+        public async Task<bool> DepartmentExistsAsync(Guid id)
+        {
+           return await _dbContext.Departments.AnyAsync(department => department.Id == id);
+        }
 
         public async Task<Department> GetDepartmentByIdAsync(Guid id)
         {

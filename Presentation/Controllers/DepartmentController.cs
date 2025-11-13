@@ -67,6 +67,30 @@ namespace Presentation.Controllers
         }
 
         /// <summary>
+        /// Checks if a department exists.
+        /// </summary>
+        /// <param name="departmentId">The unique GUID of the department to check.</param>
+        /// <returns>HTTP 200 if found, HTTP 404 if not found.</returns>
+        [HttpGet("exists/{departmentId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> CheckDepartmentExists(Guid departmentId)
+        {
+            _logger.LogInformation($"Department exists request received for department ID: {departmentId}");
+            bool departmentExists = await _mediator.Send(new DoesDepartmentExistQuery(departmentId));
+
+            _logger.LogInformation($"DepartmentExists: {departmentExists}");
+            if (departmentExists)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        /// <summary>
         /// Retrieves a list of all departments.
         /// </summary>
         /// <returns>

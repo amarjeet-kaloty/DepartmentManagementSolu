@@ -10,14 +10,12 @@ namespace Infrastructure.Services
     public class EmployeeService : IEmployeeService
     {
         private readonly DaprClient _daprClient;
-        private readonly IMapper _mapper;
         private const string MANAGEMENT_APP_ID = "employeeservice";
         private readonly ILogger<EmployeeService> _logger;
 
-        public EmployeeService(DaprClient daprClient, IMapper mapper, ILogger<EmployeeService> logger)
+        public EmployeeService(DaprClient daprClient, ILogger<EmployeeService> logger)
         {
             _daprClient = daprClient;
-            _mapper = mapper;
             _logger = logger;
         }
 

@@ -102,7 +102,7 @@ namespace Presentation.Controllers
         /// </summary>
         /// <param name="id">The unique GUID of the department whose employees are to be retrieved.</param>
         /// <returns>
-        /// Department consisting details of the all the employees or else an empty list.
+        /// Department consisting details of all the employees or else an empty list.
         /// </returns>
         [HttpGet("DepartmentDetails/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
